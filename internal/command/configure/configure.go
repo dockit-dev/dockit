@@ -11,9 +11,6 @@ import (
 )
 
 const (
-	rootDirName = ".dockit"
-
-	configFileName     = "config.json"
 	caCertFileName     = "ca_cert.pem"
 	clientCertFileName = "client_cert.pem"
 	clientKeyFileName  = "client_key.pem"
@@ -26,9 +23,9 @@ func Run(configPath string) error {
 	}
 
 	// Create a directory for dockit certificates and config: /username/.dockit
-	rootDirPath, err := homedir.Mkdir(rootDirName)
+	rootDirPath, err := homedir.Mkdir(config.RootDir)
 	if err != nil {
-		return fmt.Errorf("creating dockit root folder %s: %w", rootDirName, err)
+		return fmt.Errorf("creating dockit root folder: %w", err)
 	}
 
 	// Unarchive certficates and config
@@ -37,7 +34,7 @@ func Run(configPath string) error {
 	}
 
 	// Read the config.json to get IP address of the dockit instance
-	cfgPath := filepath.Join(rootDirPath, configFileName)
+	cfgPath := filepath.Join(rootDirPath, config.ConfigFilename)
 
 	cfg, err := config.Read(cfgPath)
 	if err != nil {
@@ -45,7 +42,7 @@ func Run(configPath string) error {
 	}
 
 	// Create a folder to store dockit instance certificates
-	ipPath := filepath.Join(rootDirName, cfg.IP)
+	ipPath := filepath.Join(config.RootDir, cfg.IP)
 
 	ipDirPath, err := homedir.Mkdir(ipPath)
 	if err != nil {

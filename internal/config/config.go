@@ -4,6 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/user"
+	"path/filepath"
+)
+
+const (
+	RootDir        = ".dockit"
+	ConfigFilename = "config.json"
 )
 
 type Config struct {
@@ -45,4 +52,15 @@ func Write(cfg Config, path string) error {
 	}
 
 	return nil
+}
+
+func Current() (Config, error) {
+	currentUser, err := user.Current()
+	if err != nil {
+		return Config{}, fmt.Errorf("current: retrieving current user: %w", err)
+	}
+
+	path := filepath.Join(currentUser.HomeDir, RootDir, ConfigFilename)
+
+	return Read(path)
 }
