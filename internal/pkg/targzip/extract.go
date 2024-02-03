@@ -3,6 +3,7 @@ package targzip
 import (
 	"archive/tar"
 	"compress/gzip"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -10,9 +11,27 @@ import (
 	"strings"
 )
 
-// Extract unzips content of the prodived tar file to dest.
-func Extract(reader io.Reader, dest string) error {
-	gzipReader, err := gzip.NewReader(reader)
+var (
+	errBlankZipPath = errors.New("zip path is blank")
+	errBlankDest    = errors.New("dest is blank")
+)
+
+// Extract unzips the provided archive to dest.
+func Extract(zipPath, dest string) error {
+	if len(zipPath) == 0 {
+		return fmt.Errorf("extract: %w", errBlankZipPath)
+	}
+
+	if len(dest) == 0 {
+		return fmt.Errorf("extract: %w", errBlankDest)
+	}
+
+	zipFile, err := os.Open(zipPath)
+	if err != nil {
+		return fmt.Errorf("extract: opening zip file %s: %w", zipPath, err)
+	}
+
+	gzipReader, err := gzip.NewReader(zipFile)
 	if err != nil {
 		return fmt.Errorf("extract: gzip reader: %w", err)
 	}

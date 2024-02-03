@@ -5,7 +5,6 @@ import (
 	"dockit/internal/pkg/file"
 	"dockit/internal/pkg/targzip"
 	"fmt"
-	"os"
 	"path/filepath"
 )
 
@@ -16,11 +15,6 @@ const (
 )
 
 func Run(configPath string) error {
-	cfgArchive, err := os.Open(configPath)
-	if err != nil {
-		return fmt.Errorf("opening config file %s: %w", configPath, err)
-	}
-
 	// Create a directory for dockit certificates and config: /username/.dockit
 	rootDirPath, err := file.Mkdir(config.RootDir)
 	if err != nil {
@@ -28,7 +22,7 @@ func Run(configPath string) error {
 	}
 
 	// Unarchive certficates and config
-	if err := targzip.Extract(cfgArchive, rootDirPath); err != nil {
+	if err := targzip.Extract(configPath, rootDirPath); err != nil {
 		return fmt.Errorf("extracting config archive: %w", err)
 	}
 
