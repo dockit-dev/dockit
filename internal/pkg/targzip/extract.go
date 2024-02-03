@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Extract unzips content of the prodived tar file to dest.
 func Extract(reader io.Reader, dest string) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
@@ -18,7 +19,7 @@ func Extract(reader io.Reader, dest string) error {
 
 	tarReader := tar.NewReader(gzipReader)
 
-	for true {
+	for {
 		header, err := tarReader.Next()
 
 		if err == io.EOF {

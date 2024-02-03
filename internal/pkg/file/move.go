@@ -1,13 +1,28 @@
 package file
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 )
 
+var (
+	errBlankSrc  = errors.New("source is blank")
+	errBlankDest = errors.New("destination is blank")
+)
+
+// MoveAll moves all files from srcDir to destDir.
 func MoveAll(srcDir, destDir string) error {
+	if len(srcDir) == 0 {
+		return fmt.Errorf("move all: %w", errBlankSrc)
+	}
+
+	if len(destDir) == 0 {
+		return fmt.Errorf("move all: %w", errBlankDest)
+	}
+
 	dir, err := os.ReadDir(srcDir)
 	if err != nil {
 		return fmt.Errorf("move all: reading src dir %s: %w", srcDir, err)
@@ -30,7 +45,16 @@ func MoveAll(srcDir, destDir string) error {
 	return nil
 }
 
+// Move moves the src file to the given dest file.
 func Move(src, dest string) error {
+	if len(src) == 0 {
+		return fmt.Errorf("move: %w", errBlankSrc)
+	}
+
+	if len(dest) == 0 {
+		return fmt.Errorf("move: %w", errBlankDest)
+	}
+
 	srcFile, err := os.Open(src)
 	if err != nil {
 		return fmt.Errorf("move: opening src file %s: %w", src, err)

@@ -3,7 +3,6 @@ package configure
 import (
 	"dockit/internal/config"
 	"dockit/internal/pkg/file"
-	"dockit/internal/pkg/homedir"
 	"dockit/internal/pkg/targzip"
 	"fmt"
 	"os"
@@ -23,7 +22,7 @@ func Run(configPath string) error {
 	}
 
 	// Create a directory for dockit certificates and config: /username/.dockit
-	rootDirPath, err := homedir.Mkdir(config.RootDir)
+	rootDirPath, err := file.Mkdir(config.RootDir)
 	if err != nil {
 		return fmt.Errorf("creating dockit root folder: %w", err)
 	}
@@ -44,7 +43,7 @@ func Run(configPath string) error {
 	// Create a folder to store dockit instance certificates
 	ipPath := filepath.Join(config.RootDir, cfg.IP)
 
-	ipDirPath, err := homedir.Mkdir(ipPath)
+	ipDirPath, err := file.Mkdir(ipPath)
 	if err != nil {
 		return fmt.Errorf("creating ip folder: %w", err)
 	}
