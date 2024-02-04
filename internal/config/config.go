@@ -9,10 +9,14 @@ import (
 )
 
 const (
-	RootDir        = ".dockit"
-	ConfigFilename = "config.json"
+	// Dir is the dockit directory name which stores all the necessary configurations.
+	Dir = ".dockit"
+
+	// filename is the file name of the dockit config.
+	filename = "config.json"
 )
 
+// Config defines the dockit config.
 type Config struct {
 	IP             string `json:"ip"`
 	CACertPath     string `json:"ca_cert_path"`
@@ -20,8 +24,9 @@ type Config struct {
 	ClientKeyPath  string `json:"client_key_path"`
 }
 
-func Read(path string) (Config, error) {
-	content, err := os.ReadFile(path)
+// Read unmarshals the content of the given file to Config.
+func Read(filename string) (Config, error) {
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return Config{}, fmt.Errorf("read: reading file: %w", err)
 	}
@@ -35,10 +40,16 @@ func Read(path string) (Config, error) {
 	return config, nil
 }
 
-func Write(cfg Config, path string) error {
+// Write saves the provided config as the current dockit configuration.
+func WriteCurrent(cfg Config) error {
 	content, err := json.Marshal(cfg)
 	if err != nil {
 		return fmt.Errorf("write: marshaling: %w", err)
+	}
+
+	path, err := fullCurrentPath()
+	if err != nil {
+		return fmt.Errorf("write: %w", err)
 	}
 
 	outputFile, err := os.Create(path)
@@ -54,13 +65,26 @@ func Write(cfg Config, path string) error {
 	return nil
 }
 
+// Current returns the current configiration.
 func Current() (Config, error) {
-	currentUser, err := user.Current()
+	path, err := fullCurrentPath()
 	if err != nil {
-		return Config{}, fmt.Errorf("current: retrieving current user: %w", err)
+		return Config{}, fmt.Errorf("current: %w", err)
 	}
 
-	path := filepath.Join(currentUser.HomeDir, RootDir, ConfigFilename)
+	cfg, err := Read(path)
+	if err != nil {
+		return Config{}, fmt.Errorf("current: reading config: %w", err)
+	}
 
-	return Read(path)
+	return cfg, nil
+}
+
+func fullCurrentPath() (string, error) {
+	currentUser, err := user.Current()
+	if err != nil {
+		return "", fmt.Errorf("retrieving current user: %w", err)
+	}
+
+	return filepath.Join(currentUser.HomeDir, Dir, filename), nil
 }
