@@ -14,6 +14,13 @@ const (
 	clientKeyFileName  = "client_key.pem"
 )
 
+// Run unzips the provided Dockit configuration and sets up a .dockit folder
+// in the user's root directory. The folder structure includes:
+// - .dockit/config.json
+// - .dockit/<ip_address>/config.json
+// - .dockit/<ip_address>/ca_cert.pem
+// - .dockit/<ip_address>/client_cert.pem
+// - .dockit/<ip_address>/client_key.pem
 func Run(configPath string) error {
 	// Create a directory for dockit certificates and config: /username/.dockit
 	dirPath, err := file.Mkdir(config.Dir)

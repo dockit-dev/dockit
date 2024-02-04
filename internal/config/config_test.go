@@ -4,7 +4,6 @@ import (
 	"dockit/internal/config"
 	"log"
 	"os"
-	"os/user"
 	"path/filepath"
 	"testing"
 
@@ -75,23 +74,23 @@ func TestRead(t *testing.T) {
 func TestCurrent(t *testing.T) {
 	is := require.New(t)
 
-	currentUser, err := user.Current()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		t.Fatalf("retrieving current user: %v", err)
+		t.Fatalf("retrieving user home dir: %v", err)
 	}
 
-	err = os.Mkdir(filepath.Join(currentUser.HomeDir, ".dockit"), 0755)
+	err = os.Mkdir(filepath.Join(homeDir, config.Dir), 0755)
 	if err != nil {
 		t.Fatalf("creating config file: %v", err)
 	}
 
-	cfgFile, err := os.Create(filepath.Join(currentUser.HomeDir, ".dockit", "config.json"))
+	cfgFile, err := os.Create(filepath.Join(homeDir, config.Dir, "config.json"))
 	if err != nil {
 		t.Fatalf("creating config file: %v", err)
 	}
 
 	defer func() {
-		if err := os.Remove(cfgFile.Name()); err != nil {
+		if err := os.RemoveAll(cfgFile.Name()); err != nil {
 			log.Printf("removing file: %v", err)
 		}
 	}()
@@ -123,10 +122,18 @@ func TestWriteCurrent(t *testing.T) {
 	err := config.WriteCurrent(cfg)
 	is.NoError(err)
 
-	currentUser, err := user.Current()
+	homeDir, err := os.UserHomeDir()
 	is.NoError(err)
 
-	content, err := os.ReadFile(filepath.Join(currentUser.HomeDir, ".dockit", "config.json"))
+	configPath := filepath.Join(homeDir, config.Dir, "config.json")
+
+	defer func() {
+		if err := os.Remove(configPath); err != nil {
+			log.Printf("removing file: %v", err)
+		}
+	}()
+
+	content, err := os.ReadFile(configPath)
 	is.NoError(err)
 	is.Equal(
 		string(content),

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"os/user"
 	"path/filepath"
 )
 
@@ -81,10 +80,10 @@ func Current() (Config, error) {
 }
 
 func fullCurrentPath() (string, error) {
-	currentUser, err := user.Current()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("retrieving current user: %w", err)
+		return "", fmt.Errorf("retrieving user home dir: %w", err)
 	}
 
-	return filepath.Join(currentUser.HomeDir, Dir, filename), nil
+	return filepath.Join(homeDir, Dir, filename), nil
 }

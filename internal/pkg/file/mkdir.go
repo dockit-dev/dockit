@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"os/user"
 	"path/filepath"
 )
 
@@ -18,12 +17,12 @@ func Mkdir(path string) (string, error) {
 		return "", fmt.Errorf("mkdir: %w", errBlankPath)
 	}
 
-	currentUser, err := user.Current()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("mkdir: retrieving current user: %w", err)
+		return "", fmt.Errorf("mkdir: retrieving user home dir %w", err)
 	}
 
-	dirPath := filepath.Join(currentUser.HomeDir, path)
+	dirPath := filepath.Join(homeDir, path)
 
 	err = os.MkdirAll(dirPath, defaultPerm)
 	if err != nil {
