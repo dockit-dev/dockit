@@ -6,6 +6,7 @@ package cmd
 import (
 	"dockit/internal/command/configure"
 	dcontext "dockit/internal/command/docker/context"
+	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -20,6 +21,8 @@ and sets it as active, enabling seamless interaction with the remote Dockit inst
 	Args:                  cobra.ExactArgs(1),
 	DisableFlagsInUseLine: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		fmt.Printf("Configuring access to remote Dockit instance from file: %s\n", args[0])
+
 		if err := configure.Run(args[0]); err != nil {
 			return err
 		}
@@ -27,6 +30,13 @@ and sets it as active, enabling seamless interaction with the remote Dockit inst
 		if err := dcontext.Create(); err != nil {
 			return err
 		}
+
+		fmt.Println("\nDockit configuration is set up successfully!")
+		fmt.Println("You can now use Docker CLI to interact with the remote Dockit instance.")
+		fmt.Println("\nExample:")
+		fmt.Println("  docker ps -a")
+		fmt.Println("\nTo switch back to using local Docker, set the context to the default one:")
+		fmt.Println("  docker context use default")
 
 		return nil
 	},
