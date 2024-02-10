@@ -5,6 +5,7 @@ import (
 	"dockit/internal/pkg/file"
 	"dockit/internal/pkg/targzip"
 	"fmt"
+	"os"
 	"path/filepath"
 )
 
@@ -22,6 +23,12 @@ const (
 // - .dockit/<ip_address>/client_cert.pem
 // - .dockit/<ip_address>/client_key.pem
 func Run(configPath string) error {
+	// Check if file exists
+	_, err := os.Stat(configPath)
+	if err != nil {
+		return err
+	}
+
 	// Create a directory for dockit certificates and config: /username/.dockit
 	dirPath, err := file.Mkdir(config.Dir)
 	if err != nil {
