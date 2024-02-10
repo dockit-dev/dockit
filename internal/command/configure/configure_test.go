@@ -44,7 +44,7 @@ func TestRun(t *testing.T) {
 		files = append(files, filepath.Base(entry.Name()))
 	}
 
-	is.Equal(files, []string([]string{"ca_cert.pem", "client_cert.pem", "client_key.pem", "config.json"}))
+	is.Equal([]string([]string{"ca_cert.pem", "client_cert.pem", "client_key.pem", "config.json"}), files)
 
 	ipConfig, err := os.ReadFile(filepath.Join(dockitDir, "49.13.13.232", "config.json"))
 	is.NoError(err)
