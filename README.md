@@ -1,6 +1,6 @@
 <h1><img align="center" src="https://github.com/dockit-dev/cli/assets/26047023/7ed3a6a6-c09c-408c-89f5-a8733e7ad0b8" width="70"> dockit</h1>
 
-[![Release](https://github.com/vektra/mockery/actions/workflows/release.yml/badge.svg)](https://github.com/dockit-dev/cli/actions)
+[![Test](https://github.com/dockit-dev/cli/actions/workflows/makefile.yml/badge.svg)](https://github.com/dockit-dev/cli/actions)
 [![codecov](https://codecov.io/gh/dockit-dev/cli/graph/badge.svg?token=IAQXVDRKDL)](https://codecov.io/gh/dockit-dev/cli)
 
 The command-line tool provides a convenient way to set up access to remote Docker servers hosted by [Dockit](https://dockit.dev).
