@@ -10,7 +10,7 @@ The command-line tool provides a convenient way to set up access to remote Docke
 To install dockit CLI, you can use the following command:
 
 ```bash
-go get -u github.com/dockit-dev/cli
+go get -u github.com/dockit-dev/dockit
 ```
 
 Make sure your Go bin directory is added to your system's PATH.
