@@ -1,11 +1,12 @@
 package context
 
 import (
-	"dockit/internal/config"
 	"fmt"
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/dockit-dev/dockit/internal/config"
 )
 
 // Create creates a new docker context and makes it a current one.

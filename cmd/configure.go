@@ -4,9 +4,10 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"dockit/internal/command/configure"
-	dcontext "dockit/internal/command/docker/context"
 	"fmt"
+
+	"github.com/dockit-dev/dockit/internal/command/configure"
+	dcontext "github.com/dockit-dev/dockit/internal/command/docker/context"
 
 	"github.com/spf13/cobra"
 )

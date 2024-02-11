@@ -1,11 +1,12 @@
 package targzip_test
 
 import (
-	"dockit/internal/pkg/targzip"
 	"os"
 	"path/filepath"
 	"sort"
 	"testing"
+
+	"github.com/dockit-dev/dockit/internal/pkg/targzip"
 
 	"github.com/stretchr/testify/require"
 )

@@ -1,4 +1,4 @@
-module dockit
+module github.com/dockit-dev/dockit
 
 go 1.21.5
 

@@ -1,9 +1,10 @@
 package config_test
 
 import (
-	"dockit/internal/config"
 	"os"
 	"testing"
+
+	"github.com/dockit-dev/dockit/internal/config"
 
 	"github.com/stretchr/testify/require"
 )

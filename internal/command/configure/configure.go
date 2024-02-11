@@ -1,12 +1,13 @@
 package configure
 
 import (
-	"dockit/internal/config"
-	"dockit/internal/pkg/file"
-	"dockit/internal/pkg/targzip"
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/dockit-dev/dockit/internal/config"
+	"github.com/dockit-dev/dockit/internal/pkg/file"
+	"github.com/dockit-dev/dockit/internal/pkg/targzip"
 )
 
 const (

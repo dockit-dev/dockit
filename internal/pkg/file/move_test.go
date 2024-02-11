@@ -2,10 +2,11 @@ package file_test
 
 import (
 	"crypto/subtle"
-	"dockit/internal/pkg/file"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/dockit-dev/dockit/internal/pkg/file"
 
 	"github.com/stretchr/testify/require"
 )

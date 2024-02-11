@@ -1,9 +1,10 @@
 package file_test
 
 import (
-	"dockit/internal/pkg/file"
 	"os"
 	"testing"
+
+	"github.com/dockit-dev/dockit/internal/pkg/file"
 
 	"github.com/stretchr/testify/require"
 )

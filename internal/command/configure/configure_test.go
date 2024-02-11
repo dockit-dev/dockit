@@ -1,12 +1,13 @@
 package configure_test
 
 import (
-	"dockit/internal/command/configure"
-	"dockit/internal/config"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/dockit-dev/dockit/internal/command/configure"
+	"github.com/dockit-dev/dockit/internal/config"
 
 	"github.com/stretchr/testify/require"
 )
