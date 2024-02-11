@@ -61,6 +61,10 @@ func WriteCurrent(cfg Config) error {
 		return fmt.Errorf("write: writting: %w", err)
 	}
 
+	if err := outputFile.Close(); err != nil {
+		return fmt.Errorf("write: closing file: %w", err)
+	}
+
 	return nil
 }
 

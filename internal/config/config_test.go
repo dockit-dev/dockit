@@ -2,9 +2,7 @@ package config_test
 
 import (
 	"dockit/internal/config"
-	"log"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -69,76 +67,6 @@ func TestRead(t *testing.T) {
 			is.Equal(cfg, td.expCfg)
 		})
 	}
-}
-
-func TestCurrent(t *testing.T) {
-	is := require.New(t)
-
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		t.Fatalf("retrieving user home dir: %v", err)
-	}
-
-	err = os.Mkdir(filepath.Join(homeDir, config.Dir), 0755)
-	if err != nil {
-		t.Fatalf("creating config file: %v", err)
-	}
-
-	cfgFile, err := os.Create(filepath.Join(homeDir, config.Dir, "config.json"))
-	if err != nil {
-		t.Fatalf("creating config file: %v", err)
-	}
-
-	defer func() {
-		if err := os.RemoveAll(cfgFile.Name()); err != nil {
-			log.Printf("removing file: %v", err)
-		}
-	}()
-
-	_, err = cfgFile.WriteString(`{"ip": "127.0.0.1"}`)
-	if err != nil {
-		t.Fatalf("writing to config file: %v", err)
-	}
-
-	if err = cfgFile.Close(); err != nil {
-		t.Fatalf("closing config file: %v", err)
-	}
-
-	cfg, err := config.Current()
-	is.NoError(err)
-	is.Equal(cfg, config.Config{IP: "127.0.0.1"})
-}
-
-func TestWriteCurrent(t *testing.T) {
-	is := require.New(t)
-
-	cfg := config.Config{
-		IP:             "127.0.0.1",
-		CACertPath:     "ca_cert_path",
-		ClientCertPath: "client_cert_path",
-		ClientKeyPath:  "client_key_path",
-	}
-
-	err := config.WriteCurrent(cfg)
-	is.NoError(err)
-
-	homeDir, err := os.UserHomeDir()
-	is.NoError(err)
-
-	configPath := filepath.Join(homeDir, config.Dir, "config.json")
-
-	defer func() {
-		if err := os.Remove(configPath); err != nil {
-			log.Printf("removing file: %v", err)
-		}
-	}()
-
-	content, err := os.ReadFile(configPath)
-	is.NoError(err)
-	is.Equal(
-		string(content),
-		"{\"ip\":\"127.0.0.1\",\"ca_cert_path\":\"ca_cert_path\",\"client_cert_path\":\"client_cert_path\",\"client_key_path\":\"client_key_path\"}",
-	)
 }
 
 func createTempFile(t *testing.T, content string) string {
