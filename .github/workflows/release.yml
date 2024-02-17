@@ -24,6 +24,6 @@ jobs:
       - name: GoReleaser
         uses: goreleaser/goreleaser-action@v5.0.0
         with:
-          args: release --rm-dist
+          args: release --clean
         env:
           HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

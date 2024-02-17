@@ -43,7 +43,7 @@ changelog:
 brews:
   - homepage: https://github.com/dockit-dev/dockit
     description: "The CLI tool provides a convenient way to set up access to remote Docker servers hosted by Dockit."
-    tap:
+    repository:
         owner: dockit-dev
         name: homebrew-dockit
         token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
