@@ -7,13 +7,41 @@ The command-line tool provides a convenient way to set up access to remote Docke
 
 ## Installation
 
-To install dockit CLI, you can use the following command:
+### Via Homebrew
+
+You can install the CLI using Homebrew. First, tap into this repository:
+
+```bash
+brew tap dockit-dev/dockit
+```
+
+Then, install the CLI tool:
+
+```bash
+brew install dockit
+```
+
+### Via Go
+
+If you have Go installed, you can also install the CLI tool directly using `go get`:
 
 ```bash
 go install github.com/dockit-dev/dockit@latest
 ```
 
 Make sure your Go bin directory is added to your system's PATH.
+
+### Releases
+
+You can download pre-built binaries from the [releases](https://github.com/dockit-dev/dockit/releases) page on GitHub. Choose the appropriate binary for your system and architecture, download it, and place it in a directory included in your system's PATH.
+
+### Verifying Installation
+
+To verify the installation, run:
+
+```bash
+dockit --version
+```
 
 ## Command Reference
 
