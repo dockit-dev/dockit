@@ -14,7 +14,9 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI tool for configuring access to Dockit instances",
 }
 
-func Execute() {
+func Execute(version string) {
+	rootCmd.Version = version
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)

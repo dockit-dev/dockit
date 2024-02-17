@@ -1,0 +1,50 @@
+version: 1
+
+project_name: dockit
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    main: ./main.go
+    goos:
+      - linux
+      - windows
+      - darwin
+
+checksum:
+    name_template: "checksum.txt"
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+brews:
+  - homepage: https://github.com/dockit-dev/dockit
+    description: "The CLI tool provides a convenient way to set up access to remote Docker servers hosted by Dockit."
+    tap:
+        owner: dockit-dev
+        name: homebrew-dockit
+        token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    folder: Formula
