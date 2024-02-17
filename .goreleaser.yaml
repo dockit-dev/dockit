@@ -46,5 +46,4 @@ brews:
     repository:
         owner: dockit-dev
         name: homebrew-dockit
-        token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     folder: Formula
